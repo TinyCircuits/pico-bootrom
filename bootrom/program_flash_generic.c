@@ -276,13 +276,7 @@ void flash_page_program(uint32_t addr, const uint8_t *data) {
 // Program a range of flash with some data from memory.
 // Size is rounded up to nearest 256 bytes.
 void __noinline flash_range_program(uint32_t addr, const uint8_t *data, size_t count) {
-    assert(!(addr & 0xffu));
-    uint32_t goal = addr + count;
-    while (addr < goal && !flash_was_aborted()) {
-        flash_page_program(addr, data);
-        addr += 256;
-        data += 256;
-    }
+    asm("bkpt 27");
 }
 
 // Force MISO input to SSI low so that an in-progress SR polling loop will
